@@ -3,7 +3,6 @@ using NyxScriptorium.Domain;
 
 namespace NyxScriptorium.Tests.Domain;
 
-
 /// <summary>
 /// Tests for the initial state of <see cref="Session"/>.
 /// </summary>
@@ -22,12 +21,9 @@ public class SessionTests
     /// <summary>
     /// A session with no job attached has not started processing, so its status is Pending.
     /// </summary>
-    public class SessionTests
+    [Test]
+    public void SessionShouldStart_WithItsJobStatusAsPending()
     {
-        [Test]
-        public void SessionShouldStart_WithItsJobStatusAsPending()
-        {
-            Assert.That(session.Status, Is.EqualTo(JobStatus.Pending));
-        }
+        Assert.That(_session.Status, Is.EqualTo(JobStatus.Pending));
     }
 }

@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using NyxScriptorium.Domain;
 
 namespace NyxScriptorium.Tests.Domain;
 
@@ -36,7 +37,7 @@ public class ProcessingJobTests
         _transcribe.Start();
         _transcribe.Fail();
 
-        Assert.That(job.Status, Is.EqualTo(JobStatus.Failed));
+        Assert.That(_job.Status, Is.EqualTo(JobStatus.Failed));
     }
 
     /// <summary>

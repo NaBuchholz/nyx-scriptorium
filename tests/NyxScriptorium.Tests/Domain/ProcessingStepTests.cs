@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using NyxScriptorium.Domain;
 
 namespace NyxScriptorium.Tests.Domain;
 
@@ -25,9 +26,9 @@ public class ProcessingStepTests
     [Test]
         public void StepShouldNotAllowTransition_FromCompletedToRunning()
         {
-            step.Start();
-            step.Complete();
+            _step.Start();
+            _step.Complete();
 
-            Assert.Throws<InvalidOperationException>(() => step.Start());
+            Assert.Throws<InvalidOperationException>(() => _step.Start());
         }
 }
