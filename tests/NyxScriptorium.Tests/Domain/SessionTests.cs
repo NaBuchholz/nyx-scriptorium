@@ -4,22 +4,22 @@ using NyxScriptorium.Domain;
 namespace NyxScriptorium.Tests.Domain;
 
 /// <summary>
-/// Tests for the initial state of <see cref="Session"/>.
+/// Tests for the initial state of <see cref="SessionContext"/>.
 /// </summary>
 [TestFixture]
 public class SessionTests
 {
-    private Session _session = null!;
+    private SessionContext _session = null!;
 
-    /// <summary>Creates a fresh session before each test.</summary>
+    /// <summary>Creates a fresh SessionContext before each test.</summary>
     [SetUp]
     public void SetUp()
     {
-        _session = new Session();
+        _session = new SessionContext();
     }
     
     /// <summary>
-    /// A session with no job attached has not started processing, so its status is Pending.
+    /// A SessionContext with no job attached has not started processing, so its status is Pending.
     /// </summary>
     [Test]
     public void SessionShouldStart_WithItsJobStatusAsPending()

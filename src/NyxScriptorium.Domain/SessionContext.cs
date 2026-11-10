@@ -6,7 +6,7 @@ namespace NyxScriptorium.Domain;
 /// A recording session: one or more audio files and, once processing is requested,
 /// the <see cref="ProcessingJob"/> that handles them.
 /// </summary>
-public class Session
+public class SessionContext
 {
     private readonly List<AudioFile> _audioFiles = [];
 
