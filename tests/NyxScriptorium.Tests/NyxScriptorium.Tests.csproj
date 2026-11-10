@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\NyxScriptorium.Application\NyxScriptorium.Application.csproj" />
     <ProjectReference Include="..\..\src\NyxScriptorium.Processing\NyxScriptorium.Processing.csproj" />
+    <ProjectReference Include="..\..\src\NyxScriptorium.Domain\NyxScriptorium.Domain.csproj" />
   </ItemGroup>
 
 </Project>
