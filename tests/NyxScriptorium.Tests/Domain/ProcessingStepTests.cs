@@ -1,3 +1,4 @@
+using FluentAssertions;
 using NUnit.Framework;
 using NyxScriptorium.Domain;
 
@@ -18,17 +19,22 @@ public class ProcessingStepTests
         _step = new ProcessingStep("step-1");
     }
 
-
     /// <summary>
     /// Completed is a terminal state: a completed step cannot be started again,
     /// and the attempt is rejected with an <see cref="InvalidOperationException"/>.
     /// </summary>
     [Test]
-        public void StepShouldNotAllowTransition_FromCompletedToRunning()
+        public void Start_ShouldThrowInvalidOperationException_WhenStepIsCompleted()
         {
+            // Arrange
             _step.Start();
             _step.Complete();
 
-            Assert.Throws<InvalidOperationException>(() => _step.Start());
+           // Act
+
+           Action act = () => _step.Start();
+            
+           // Assert
+            act.Should().Throw<InvalidOperationException>();
         }
 }

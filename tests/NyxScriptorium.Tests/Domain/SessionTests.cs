@@ -1,3 +1,4 @@
+using FluentAssertions;
 using NUnit.Framework;
 using NyxScriptorium.Domain;
 
@@ -22,8 +23,12 @@ public class SessionTests
     /// A SessionContext with no job attached has not started processing, so its status is Pending.
     /// </summary>
     [Test]
-    public void SessionShouldStart_WithItsJobStatusAsPending()
+    public void Session_ShouldBePending_WhenSessionHasNoJob()
     {
-        Assert.That(_session.Status, Is.EqualTo(JobStatus.Pending));
+        // Act
+        var status = _session.Status;
+
+        // Assert
+        status.Should().Be(JobStatus.Pending);
     }
 }
