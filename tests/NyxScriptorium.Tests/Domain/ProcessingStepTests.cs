@@ -31,7 +31,6 @@ public class ProcessingStepTests
             _step.Complete();
 
            // Act
-
            Action act = () => _step.Start();
             
            // Assert
