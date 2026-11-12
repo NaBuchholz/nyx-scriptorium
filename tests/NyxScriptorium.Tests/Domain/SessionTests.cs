@@ -1,5 +1,5 @@
 using FluentAssertions;
-using NUnit.Framework;
+
 using NyxScriptorium.Domain;
 
 namespace NyxScriptorium.Tests.Domain;
@@ -14,11 +14,8 @@ public class SessionTests
 
     /// <summary>Creates a fresh SessionContext before each test.</summary>
     [SetUp]
-    public void SetUp()
-    {
-        _session = new SessionContext();
-    }
-    
+    public void SetUp() => _session = new SessionContext();
+
     /// <summary>
     /// A SessionContext with no job attached has not started processing, so its status is Pending.
     /// </summary>

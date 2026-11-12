@@ -1,5 +1,5 @@
 using FluentAssertions;
-using NUnit.Framework;
+
 using NyxScriptorium.Domain;
 
 namespace NyxScriptorium.Tests.Domain;
@@ -14,10 +14,7 @@ public class ProcessingStepTests
 
     /// <summary>Creates a fresh step in the Pending state before each test.</summary>
     [SetUp]
-    public void SetUp()
-    {
-        _step = new ProcessingStep("step-1");
-    }
+    public void SetUp() => _step = new ProcessingStep("step-1");
 
     /// <summary>
     /// Completed is a terminal state: a completed step cannot be started again,

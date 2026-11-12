@@ -1,6 +1,6 @@
-using NUnit.Framework;
-using NyxScriptorium.Domain;
 using FluentAssertions;
+
+using NyxScriptorium.Domain;
 
 namespace NyxScriptorium.Tests.Domain;
 
