@@ -2,6 +2,7 @@
   <Folder Name="/src/">
     <Project Path="src/NyxScriptorium.Application/NyxScriptorium.Application.csproj" />
     <Project Path="src/NyxScriptorium.Cli/NyxScriptorium.Cli.csproj" />
+    <Project Path="src/NyxScriptorium.Domain/NyxScriptorium.Domain.csproj" />
     <Project Path="src/NyxScriptorium.Processing/NyxScriptorium.Processing.csproj" />
   </Folder>
   <Folder Name="/tests/">
