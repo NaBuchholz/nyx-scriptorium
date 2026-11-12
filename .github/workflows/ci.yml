@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [develop]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
+
+      - name: Restore
+        run: dotnet restore NyxScriptorium.slnx
+
+      - name: Build
+        run: dotnet build NyxScriptorium.slnx -c Release --no-restore
+
+      - name: Test
+        run: dotnet test NyxScriptorium.slnx -c Release --no-build --filter "TestCategory!=Integration"
