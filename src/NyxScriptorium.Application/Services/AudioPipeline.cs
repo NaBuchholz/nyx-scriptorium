@@ -1,5 +1,6 @@
 using NyxScriptorium.Application.Interfaces;
-using NyxScriptorium.Domain;
+using NyxScriptorium.Domain.Jobs;
+using NyxScriptorium.Domain.Sessions;
 
 namespace NyxScriptorium.Application.Services;
 
@@ -9,7 +10,7 @@ namespace NyxScriptorium.Application.Services;
 public class AudioPipeline(IAudioProcessor audioProcessor) : IAudioPipeline
 {
     /// <inheritdoc />
-    public async Task<ProcessingJob> RunAsync(AudioFile file, CancellationToken cancellationToken) 
+    public async Task<ProcessingJob> RunAsync(AudioFile file, CancellationToken cancellationToken)
     {
         var validateStep = new ProcessingStep("ValidateFile");
         var processingJob = new ProcessingJob([validateStep]);

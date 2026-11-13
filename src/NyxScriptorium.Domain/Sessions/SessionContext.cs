@@ -1,6 +1,7 @@
-using System;
+using NyxScriptorium.Domain.Enums;
+using NyxScriptorium.Domain.Jobs;
 
-namespace NyxScriptorium.Domain;
+namespace NyxScriptorium.Domain.Sessions;
 
 /// <summary>
 /// A recording session: one or more audio files and, once processing is requested,

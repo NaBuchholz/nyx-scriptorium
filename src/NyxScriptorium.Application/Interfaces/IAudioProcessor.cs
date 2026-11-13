@@ -1,5 +1,5 @@
 using NyxScriptorium.Application.Exceptions;
-using NyxScriptorium.Domain;
+using NyxScriptorium.Domain.Sessions;
 
 namespace NyxScriptorium.Application.Interfaces;
 
