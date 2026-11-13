@@ -11,7 +11,6 @@ public class AudioPipeline(IAudioProcessor audioProcessor) : IAudioPipeline
     /// <inheritdoc />
     public async Task<ProcessingJob> RunAsync(AudioFile file, CancellationToken cancellationToken) 
     {
-       // TODO: Implement pipeline orchestration.
         var validateStep = new ProcessingStep("ValidateFile");
         var processingJob = new ProcessingJob([validateStep]);
 
