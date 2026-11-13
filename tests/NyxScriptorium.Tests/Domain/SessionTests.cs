@@ -1,6 +1,8 @@
 using FluentAssertions;
 
 using NyxScriptorium.Domain;
+using NyxScriptorium.Domain.Enums;
+using NyxScriptorium.Domain.Sessions;
 
 namespace NyxScriptorium.Tests.Domain;
 
