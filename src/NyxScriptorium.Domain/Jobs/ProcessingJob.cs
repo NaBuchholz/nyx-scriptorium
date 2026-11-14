@@ -1,6 +1,7 @@
 using System;
+using NyxScriptorium.Domain.Enums;
 
-namespace NyxScriptorium.Domain;
+namespace NyxScriptorium.Domain.Jobs;
 
 /// <summary>
 /// A full processing run, made of an ordered list of <see cref="ProcessingStep"/>.

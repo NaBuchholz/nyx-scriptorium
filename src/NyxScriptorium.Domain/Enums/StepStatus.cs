@@ -1,4 +1,6 @@
-﻿namespace NyxScriptorium.Domain;
+﻿using NyxScriptorium.Domain.Jobs;
+
+namespace NyxScriptorium.Domain.Enums;
 
 /// <summary>
 /// Lifecycle state of a single <see cref="ProcessingStep"/>.

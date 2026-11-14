@@ -1,6 +1,8 @@
-using NUnit.Framework;
-using NyxScriptorium.Domain;
 using FluentAssertions;
+
+using NyxScriptorium.Domain;
+using NyxScriptorium.Domain.Enums;
+using NyxScriptorium.Domain.Jobs;
 
 namespace NyxScriptorium.Tests.Domain;
 
@@ -19,11 +21,11 @@ public class ProcessingJobTests
     [SetUp]
     public void SetUp()
     {
-        _validate   = new ProcessingStep("ValidateFiles");
+        _validate = new ProcessingStep("ValidateFiles");
         _transcribe = new ProcessingStep("TranscribeAudio");
-        _generate   = new ProcessingStep("GenerateArtifacts");
+        _generate = new ProcessingStep("GenerateArtifacts");
         _job = new ProcessingJob([_validate, _transcribe, _generate]);
-    } 
+    }
 
     /// <summary>
     /// A single failed step is enough to make the whole job Failed,

@@ -1,6 +1,7 @@
 using System;
+using NyxScriptorium.Domain.Enums;
 
-namespace NyxScriptorium.Domain;
+namespace NyxScriptorium.Domain.Jobs;
 
 /// <summary>
 /// One independent stage of a processing pipeline (e.g. validating files, transcribing audio).
@@ -15,11 +16,11 @@ public class ProcessingStep
     private static readonly IReadOnlyDictionary<StepStatus, StepStatus[]> AllowedTransitions =
         new Dictionary<StepStatus, StepStatus[]>
         {
-            [StepStatus.Pending]   = [StepStatus.Running, StepStatus.Skipped, StepStatus.Cancelled],
-            [StepStatus.Running]   = [StepStatus.Completed, StepStatus.Failed, StepStatus.Cancelled],
+            [StepStatus.Pending] = [StepStatus.Running, StepStatus.Skipped, StepStatus.Cancelled],
+            [StepStatus.Running] = [StepStatus.Completed, StepStatus.Failed, StepStatus.Cancelled],
             [StepStatus.Completed] = [],
-            [StepStatus.Failed]    = [],
-            [StepStatus.Skipped]   = [],
+            [StepStatus.Failed] = [],
+            [StepStatus.Skipped] = [],
             [StepStatus.Cancelled] = [],
         };
 
@@ -41,7 +42,7 @@ public class ProcessingStep
 
     /// <summary>Moves the step from <see cref="StepStatus.Pending"/> to <see cref="StepStatus.Running"/>.</summary>
     /// <exception cref="InvalidOperationException">The transition is not allowed from the current state.</exception>
-    public void Start()    => TransitionTo(StepStatus.Running);
+    public void Start() => TransitionTo(StepStatus.Running);
 
     /// <summary>Moves the step from <see cref="StepStatus.Running"/> to <see cref="StepStatus.Completed"/>.</summary>
     /// <exception cref="InvalidOperationException">The transition is not allowed from the current state.</exception>
@@ -49,18 +50,18 @@ public class ProcessingStep
 
     /// <summary>Moves the step from <see cref="StepStatus.Running"/> to <see cref="StepStatus.Failed"/>.</summary>
     /// <exception cref="InvalidOperationException">The transition is not allowed from the current state.</exception>
-    public void Fail()     => TransitionTo(StepStatus.Failed);
+    public void Fail() => TransitionTo(StepStatus.Failed);
 
     /// <summary>Moves the step from <see cref="StepStatus.Pending"/> to <see cref="StepStatus.Skipped"/>.</summary>
     /// <exception cref="InvalidOperationException">The transition is not allowed from the current state.</exception>
-    public void Skip()     => TransitionTo(StepStatus.Skipped);
+    public void Skip() => TransitionTo(StepStatus.Skipped);
 
     /// <summary>
     /// Moves the step from <see cref="StepStatus.Pending"/> or <see cref="StepStatus.Running"/>
     /// to <see cref="StepStatus.Cancelled"/>.
     /// </summary>
     /// <exception cref="InvalidOperationException">The transition is not allowed from the current state.</exception>
-    public void Cancel()   => TransitionTo(StepStatus.Cancelled);
+    public void Cancel() => TransitionTo(StepStatus.Cancelled);
 
     /// <summary>
     /// The only place that changes <see cref="Status"/>. Checks the transition rules
