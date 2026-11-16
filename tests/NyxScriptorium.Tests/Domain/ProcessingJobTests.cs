@@ -1,6 +1,5 @@
-using NUnit.Framework;
-using NyxScriptorium.Domain;
-using FluentAssertions;
+using NyxScriptorium.Domain.Enums;
+using NyxScriptorium.Domain.Jobs;
 
 namespace NyxScriptorium.Tests.Domain;
 
@@ -19,11 +18,11 @@ public class ProcessingJobTests
     [SetUp]
     public void SetUp()
     {
-        _validate   = new ProcessingStep("ValidateFiles");
+        _validate = new ProcessingStep("ValidateFiles");
         _transcribe = new ProcessingStep("TranscribeAudio");
-        _generate   = new ProcessingStep("GenerateArtifacts");
+        _generate = new ProcessingStep("GenerateArtifacts");
         _job = new ProcessingJob([_validate, _transcribe, _generate]);
-    } 
+    }
 
     /// <summary>
     /// A single failed step is enough to make the whole job Failed,
@@ -85,5 +84,35 @@ public class ProcessingJobTests
 
         // Assert
         status.Should().Be(JobStatus.Completed);
+    }
+
+    /// <summary>
+    /// Ensures that a new processing step is added to the job.
+    /// </summary>
+    [Test]
+    public void AddStep_ValidStep_AddsStepToJob()
+    {
+        // Arrange
+        var step = new ProcessingStep("PrepareAudio");
+
+        // Act
+        _job.AddStep(step);
+
+        // Assert
+        _job.Steps.Should().Contain(step);
+        _job.Steps.Should().HaveCount(4);
+    }
+
+    /// <summary>
+    /// Ensures that adding a null processing step throws an exception.
+    /// </summary>
+    [Test]
+    public void AddStep_NullStep_ThrowsArgumentNullException()
+    {
+        // Act
+        var action = () => _job.AddStep(null!);
+
+        // Assert
+        action.Should().Throw<ArgumentNullException>();
     }
 }

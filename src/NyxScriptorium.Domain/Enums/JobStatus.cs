@@ -1,4 +1,6 @@
-namespace NyxScriptorium.Domain;
+using NyxScriptorium.Domain.Jobs;
+
+namespace NyxScriptorium.Domain.Enums;
 
 /// <summary>
 /// Aggregate state of a <see cref="ProcessingJob"/>, derived from the states of its steps.
@@ -14,5 +16,5 @@ public enum JobStatus
     /// <summary>At least one step failed. Takes priority over <see cref="Cancelled"/>.</summary>
     Failed,
     /// <summary>At least one step was cancelled and none failed.</summary>
-    Cancelled 
+    Cancelled
 }

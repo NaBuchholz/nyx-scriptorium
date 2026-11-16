@@ -1,6 +1,6 @@
-using System;
+using NyxScriptorium.Domain.Enums;
 
-namespace NyxScriptorium.Domain;
+namespace NyxScriptorium.Domain.Jobs;
 
 /// <summary>
 /// A full processing run, made of an ordered list of <see cref="ProcessingStep"/>.
@@ -24,7 +24,9 @@ public class ProcessingJob
         _steps = steps.ToList();
 
         if (_steps.Count == 0)
+        {
             throw new ArgumentException("A job must have at least one step.", nameof(steps));
+        }
     }
 
     /// <summary>
@@ -39,18 +41,37 @@ public class ProcessingJob
         get
         {
             if (_steps.Any(s => s.Status == StepStatus.Failed))
+            {
                 return JobStatus.Failed;
+            }
 
             if (_steps.Any(s => s.Status == StepStatus.Cancelled))
+            {
                 return JobStatus.Cancelled;
+            }
 
             if (_steps.All(s => s.Status is StepStatus.Completed or StepStatus.Skipped))
+            {
                 return JobStatus.Completed;
+            }
 
             if (_steps.All(s => s.Status == StepStatus.Pending))
+            {
                 return JobStatus.Pending;
+            }
 
             return JobStatus.Running;
         }
+    }
+
+    /// <summary>
+    /// Adds a processing step to the job.
+    /// </summary>
+    /// <param name="step">The step to add.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="step"/> is null.</exception>
+    public void AddStep(ProcessingStep step)
+    {
+        ArgumentNullException.ThrowIfNull(step);
+        _steps.Add(step);
     }
 }
