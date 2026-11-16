@@ -1,6 +1,3 @@
-using FluentAssertions;
-
-using NyxScriptorium.Domain;
 using NyxScriptorium.Domain.Enums;
 using NyxScriptorium.Domain.Jobs;
 
@@ -87,5 +84,35 @@ public class ProcessingJobTests
 
         // Assert
         status.Should().Be(JobStatus.Completed);
+    }
+
+    /// <summary>
+    /// Ensures that a new processing step is added to the job.
+    /// </summary>
+    [Test]
+    public void AddStep_ValidStep_AddsStepToJob()
+    {
+        // Arrange
+        var step = new ProcessingStep("PrepareAudio");
+
+        // Act
+        _job.AddStep(step);
+
+        // Assert
+        _job.Steps.Should().Contain(step);
+        _job.Steps.Should().HaveCount(4);
+    }
+
+    /// <summary>
+    /// Ensures that adding a null processing step throws an exception.
+    /// </summary>
+    [Test]
+    public void AddStep_NullStep_ThrowsArgumentNullException()
+    {
+        // Act
+        var action = () => _job.AddStep(null!);
+
+        // Assert
+        action.Should().Throw<ArgumentNullException>();
     }
 }

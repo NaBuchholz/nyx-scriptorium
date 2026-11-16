@@ -1,4 +1,3 @@
-using System;
 using NyxScriptorium.Domain.Enums;
 
 namespace NyxScriptorium.Domain.Jobs;

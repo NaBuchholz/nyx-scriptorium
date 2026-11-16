@@ -1,5 +1,5 @@
 using NyxScriptorium.Domain.Sessions;
-using NyxScriptorium.Domain.Jobs;
+using NyxScriptorium.Domain.Processing;
 
 namespace NyxScriptorium.Application.Interfaces;
 
@@ -8,5 +8,5 @@ namespace NyxScriptorium.Application.Interfaces;
 /// </summary>
 public interface IAudioPipeline
 {
-    public Task<ProcessingJob> RunAsync(AudioFile file, CancellationToken cancellationToken);
+    public Task<ProcessingResult> RunAsync(SessionContext session, CancellationToken cancellationToken);
 }
