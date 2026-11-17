@@ -27,4 +27,10 @@
     <ProjectReference Include="..\..\src\NyxScriptorium.Domain\NyxScriptorium.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="..\TestData\Audio\valid-short.mp3"
+          Link="TestData\Audio\valid-short.mp3"
+          CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
 </Project>

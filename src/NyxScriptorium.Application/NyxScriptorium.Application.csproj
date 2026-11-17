@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\NyxScriptorium.Processing\NyxScriptorium.Processing.csproj" />
     <ProjectReference Include="..\NyxScriptorium.Domain\NyxScriptorium.Domain.csproj" />
   </ItemGroup>
 
