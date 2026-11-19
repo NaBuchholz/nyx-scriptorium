@@ -38,7 +38,7 @@ public class FfmpegAudioProcessorService : IAudioProcessor
                 }
             };
         }
-        catch (System.Exception)
+        catch
         {
 
             throw;
