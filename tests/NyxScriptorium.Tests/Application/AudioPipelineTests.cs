@@ -8,7 +8,7 @@ using NyxScriptorium.Domain.Sessions;
 namespace NyxScriptorium.Tests.Application;
 
 /// <summary>
-/// Tests the behavior of the <see cref="AudioPipeline"/> during audio validation.
+/// Tests the behavior of the <see cref="AudioPipeline"/> during audio processing.
 /// </summary>
 [TestFixture]
 public class AudioPipelineTests
@@ -33,26 +33,41 @@ public class AudioPipelineTests
 
     #region RunAsync Method
     /// <summary>
-    /// Verifies that the pipeline completes the validation step and the job
-    /// when the audio file is successfully validated.
+    /// Verifies that the pipeline completes all steps and the job
+    /// when the processor succeeds.
     /// </summary>
     [Test]
-    public async Task RunAsync_ShouldCompleteValidation_WhenFileIsValid()
+    public async Task RunAsync_ShouldCompleteAllSteps_WhenProcessorSucceeds()
     {
         // Arrange
+        var preparedFile = new AudioFile("prepared-audio.wav");
+
         _processor.Setup(x => x.ValidateAsync(
             _file,
             CancellationToken.None))
             .Returns(Task.CompletedTask);
+        _processor.Setup(x => x.PrepareAsync(
+            _file,
+            CancellationToken.None))
+            .ReturnsAsync(preparedFile);
 
         // Act
         var result = await _sut.RunAsync(_session, CancellationToken.None);
 
         // Assert
         result.Session.Status.Should().Be(JobStatus.Completed);
-        var validationStep = result.Session.Job!.Steps.Should().ContainSingle(
+        var steps = result.Session.Job!.Steps;
+        steps.Should().HaveCount(2);
+
+        var validationStep = steps.Should().ContainSingle(
             x => x.Name == "ValidateFile").Subject;
         validationStep.Status.Should().Be(StepStatus.Completed);
+
+        var preparationStep = steps.Should().ContainSingle(
+            x => x.Name == "PrepareAudio").Subject;
+        preparationStep.Status.Should().Be(StepStatus.Completed);
+
+        result.Context!.PreparedAudio.Should().BeSameAs(preparedFile);
         _processor.VerifyAll();
     }
 
@@ -77,6 +92,7 @@ public class AudioPipelineTests
         var validationStep = result.Session.Job!.Steps.Should().ContainSingle(
             x => x.Name == "ValidateFile").Subject;
         validationStep.Status.Should().Be(StepStatus.Failed);
+        result.Session.Job.Steps.Should().NotContain(x => x.Name == "PrepareAudio");
         _processor.VerifyAll();
     }
 
@@ -101,6 +117,7 @@ public class AudioPipelineTests
         var validationStep = result.Session.Job!.Steps.Should().ContainSingle(
             x => x.Name == "ValidateFile").Subject;
         validationStep.Status.Should().Be(StepStatus.Failed);
+        result.Session.Job.Steps.Should().NotContain(x => x.Name == "PrepareAudio");
         _processor.VerifyAll();
     }
 
@@ -128,7 +145,37 @@ public class AudioPipelineTests
         _processor.VerifyAll();
     }
 
+    /// <summary>
+    /// Verifies that the pipeline fails the job when audio preparation throws.
+    /// </summary>
     [Test]
-    public async Task RunAsync_ShouldPrepareAudio_WhenValidationSucceeds() { }
+    public async Task RunAsync_ShouldFailJob_WhenPreparationThrows()
+    {
+        // Arrange
+        _processor.Setup(x => x.ValidateAsync(
+            _file,
+            CancellationToken.None))
+            .Returns(Task.CompletedTask);
+        _processor.Setup(x => x.PrepareAsync(
+            _file,
+            CancellationToken.None))
+            .ThrowsAsync(new AudioProcessingException("Preparation failed"));
+
+        // Act
+        var result = await _sut.RunAsync(_session, CancellationToken.None);
+
+        // Assert
+        result.Session.Status.Should().Be(JobStatus.Failed);
+
+        var validationStep = result.Session.Job!.Steps.Should().ContainSingle(
+            x => x.Name == "ValidateFile").Subject;
+        validationStep.Status.Should().Be(StepStatus.Completed);
+
+        var preparationStep = result.Session.Job.Steps.Should().ContainSingle(
+            x => x.Name == "PrepareAudio").Subject;
+        preparationStep.Status.Should().Be(StepStatus.Failed);
+
+        _processor.VerifyAll();
+    }
     #endregion
 }
