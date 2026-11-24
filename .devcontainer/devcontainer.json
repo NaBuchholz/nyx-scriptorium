@@ -1,0 +1,27 @@
+{
+  "name": "Nyx Scriptorium",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+  "remoteUser": "vscode",
+  "updateRemoteUserUID": true,
+  "containerEnv": {
+    "TMPDIR": "/tmp",
+    "DOTNET_CLI_HOME": "/home/vscode"
+  },
+  "mounts": [
+    "source=nyx-scriptorium-nuget,target=/home/vscode/.nuget/packages,type=volume",
+    "source=nyx-scriptorium-huggingface,target=/home/vscode/.cache/huggingface,type=volume"
+  ],
+  "postCreateCommand": "sudo chown -R vscode:vscode /home/vscode/.nuget /home/vscode/.cache/huggingface && dotnet restore NyxScriptorium.slnx",
+  "postStartCommand": "sudo chown -R vscode:vscode /home/vscode/.nuget /home/vscode/.cache/huggingface",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-dotnettools.csharp",
+        "ms-dotnettools.csdevkit"
+      ]
+    }
+  }
+}
